@@ -1,0 +1,25 @@
+{
+  "name": "aeesi-online-payment",
+  "version": "1.0.0",
+  "description": "Online Payments with Mercado Pago",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "author": "Hendrius Félix",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.5"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "http": "^0.0.1-security",
+    "mercadopago": "^2.0.15",
+    "pg": "^8.13.0",
+    "socket.io": "^4.7.5",
+    "uuidv4": "^6.2.13"
+  }
+}
