@@ -45,7 +45,7 @@ nav {
   justify-content: center;
   align-items: center;
   padding: 15px 20px;
-  background-color: #10e956;
+  background-color: #212121;
   color: white;
   font-family: "Roboto", sans-serif;
   position: relative;
@@ -62,7 +62,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #333;
+  color: #42a025;
 }
 
 .menu-icon {
@@ -92,7 +92,7 @@ nav a:hover {
     position: absolute;
     right: 8%;
     top: 2%;
-    color: #2c3e50;
+    color: #22941e;
   }
 
   .menu-items {
@@ -102,7 +102,7 @@ nav a:hover {
     height: 100vh;
     width: 150px;
     flex-direction: column;
-    background-color: #10e956;
+    background-color: #212121;
     padding-top: 60px;
     transition: right 0.3s ease;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
@@ -110,6 +110,7 @@ nav a:hover {
 
   .menu-items.show {
     right: 0;
+    z-index: 999;
   }
 
   .menu-items a {

@@ -67,8 +67,6 @@ router.post("/web-hooks", async (req, res) => {
   try {
     const paymentData = req.body;
 
-    console.log(paymentData);
-
     if (
       paymentData.action === "payment.created" ||
       paymentData.action === "payment.updated"
@@ -101,18 +99,14 @@ router.post("/pix-payment", async (req, res) => {
     };
 
     const body = {
-      transaction_amount: parseFloat(
-        paymentDetails.paymentData.transaction_amount
-      ),
-      description: paymentDetails.paymentData.description,
-      payment_method_id: paymentDetails.paymentData.payment_method_id,
-      notification_url:
-        "https://aeesi-local-server.vercel.app/payment/web-hooks",
+      transaction_amount: 1,
+      description: "Teste de pagamento",
+      payment_method_id: "pix",
       payer: {
         email: "hendriusfelix@gmail.com",
         identification: {
-          type: paymentDetails.paymentData.identification,
-          number: paymentDetails.paymentData.identificationValue,
+          type: "cpf",
+          number: "04894714558",
         },
       },
     };

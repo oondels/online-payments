@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db/db");
+const payment = require("./payment/payment");
 
 const app = express();
 app.use(cors());
@@ -13,6 +14,8 @@ app.listen(2399, () => {
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
+
+app.use("/payment", payment);
 
 app.post("/client-monthly-payment", async (req, res) => {
   try {

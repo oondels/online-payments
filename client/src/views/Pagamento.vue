@@ -20,8 +20,8 @@
         </v-card>
       </template>
     </v-dialog>
-    <div class="table">
-      <table>
+    <div v-if="clients" class="table">
+      <table class="table-payments">
         <thead>
           <tr>
             <th>Nome</th>
@@ -54,7 +54,9 @@
                         ></v-text-field>
                       </div>
 
-                      <div class="user-content">
+                      <div
+                        class="user-content d-flex flex-column justify-content-center align-items-center"
+                      >
                         <ul v-if="!paying" class="user-informations">
                           <li>
                             <i class="material-icons">cake</i>
@@ -78,9 +80,26 @@
 
                         <div class="payment-container" v-if="paying">
                           <v-progress-circular
+                            v-if="paying && !processingPayment"
                             indeterminate
-                            color="primary"
+                            color="success"
+                            :size="150"
+                            width="18"
                           ></v-progress-circular>
+
+                          <div
+                            class="bar-code d-flex flex-column justify-content-center align-items-center"
+                            v-if="paying && processingPayment && qrCode"
+                          >
+                            <qrcode
+                              :value="qrCode"
+                              :options="{ width: 200 }"
+                            ></qrcode>
+
+                            <a :href="qrCodeLink" target="_blank"
+                              >Ou clique aqui</a
+                            >
+                          </div>
                         </div>
 
                         <v-btn
@@ -99,7 +118,10 @@
 
                       <v-btn
                         text="Fechar"
-                        @click="isActive.value = false"
+                        @click="
+                          isActive.value = false;
+                          clearPaymentData();
+                        "
                       ></v-btn>
                     </v-card-actions>
                   </v-card>
@@ -110,6 +132,14 @@
         </tbody>
       </table>
     </div>
+    <div class="mt-5" v-else>
+      <v-progress-circular
+        indeterminate
+        color="success"
+        :size="150"
+        width="18"
+      ></v-progress-circular>
+    </div>
   </div>
 
   <alert ref="alert" />
@@ -117,13 +147,14 @@
 
 <script>
 import Alert from "@/components/Alert.vue";
+import Qrcode from "@chenfengyuan/vue-qrcode";
 import axios from "axios";
 import ip from "../ip.js";
 
 export default {
   name: "Pamagamento",
 
-  components: { Alert },
+  components: { Alert, Qrcode },
 
   data() {
     return {
@@ -132,8 +163,11 @@ export default {
 
       inputCpf: "",
 
+      processingPayment: false,
       loading: false,
       paying: false,
+      qrCode: "",
+      qrCodeLink: "",
     };
   },
 
@@ -167,22 +201,37 @@ export default {
     },
 
     monthlyPayment(client, coursePrice = 40, method = "pix") {
-      console.log(client);
+      // console.log(client);
       this.paying = !this.paying;
 
-      // axios
-      //   .post(`http://localhost:2399/client-monthly-payment`, {
-      //     client: client,
-      //     price: coursePrice,
-      //     method: method,
-      //   })
-      //   .then((response) => {
-      //     console.log(response.data);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Erro ao efetuar pagamento: ", error);
-      //     alert("Erro ao efetuar pagamento");
-      //   });
+      setTimeout(() => {
+        this.processingPayment = true;
+      }, 1500);
+      //Alterar link depois, esta somente para terste, correto -> client-monthly-payment
+      axios
+        .post(`http://localhost:2399/payment/pix-payment`)
+        .then((response) => {
+          console.log(response.data);
+
+          // Fazer lógica no metodo generateQrCode para gerar e exbir o qr code na div .bar-code
+          this.qrCode =
+            response.data.point_of_interaction.transaction_data.qr_code;
+          this.qrCodeLink =
+            response.data.point_of_interaction.transaction_data.ticket_url;
+        })
+        .catch((error) => {
+          console.error("Erro ao efetuar pagamento: ", error);
+          alert("Erro ao efetuar pagamento");
+        });
+    },
+
+    generateQrCode() {},
+
+    clearPaymentData() {
+      this.qrCode = "";
+      this.qrCodeLink = "";
+      this.paying = false;
+      this.processingPayment = false;
     },
   },
 };
@@ -199,21 +248,25 @@ export default {
   overflow: hidden;
 }
 
-table {
+.table-payments {
   width: 100%;
   border-collapse: collapse;
   font-family: "Arial", sans-serif;
 }
 
-thead {
-  background-color: #3498db;
+.table-payments thead th {
+  background-color: #3498db !important;
   color: white;
   text-align: left;
 }
 
-th,
-td {
-  padding: 12px 15px;
+.table-payments th {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-payments td {
+  padding: 8px 15px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -223,7 +276,6 @@ tbody tr:hover {
 
 td {
   color: #333;
-  cursor: pointer;
 }
 
 th {
@@ -269,6 +321,46 @@ th {
 
 .user-informations li .info-text {
   flex-grow: 1; /* Faz o texto ocupar o espaço necessário */
+}
+
+.bar-code {
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  text-align: center;
+}
+
+.bar-code qrcode {
+  margin-bottom: 10px;
+}
+
+.bar-code a {
+  font-weight: 600;
+  color: #009ee3;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.bar-code a:hover {
+  color: #007bbd;
+}
+
+.bar-code .d-flex {
+  justify-content: center;
+  align-items: center;
+}
+
+.bar-code h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3e4a59;
+  margin-bottom: 10px;
+}
+
+.bar-code small {
+  color: #7a8c99;
 }
 
 @media screen and (max-width: 768px) {
