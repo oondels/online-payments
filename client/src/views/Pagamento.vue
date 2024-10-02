@@ -20,80 +20,93 @@
         </v-card>
       </template>
     </v-dialog>
-    <div class="table" v-for="client in clients" :key="client.id">
+    <div class="table">
       <table>
         <thead>
           <tr>
             <th>Nome</th>
             <th>Curso</th>
-            <th>Horário</th>
+            <th>Pagamento</th>
           </tr>
         </thead>
 
         <tbody>
-          <v-dialog max-width="700">
-            <template v-slot:activator="{ props: activatorProps }">
-              <tr v-bind="activatorProps">
-                <td>{{ client.name }}</td>
-                <td>{{ client.course }}</td>
-                <td>{{ client.schedule }}</td>
-              </tr>
-            </template>
+          <tr v-for="client in clients" :key="client.id">
+            <td>{{ client.name }}</td>
+            <td>{{ client.course }}</td>
 
-            <template v-slot:default="{ isActive }">
-              <v-card :title="client.name">
-                <v-card-text>
-                  <h3 class="text-center">Digite seu cpf para prosseguir</h3>
-                  <div class="check-cpf">
-                    <v-text-field v-model="inputCpf" label="CPF"></v-text-field>
-                  </div>
+            <td>
+              <v-dialog max-width="700">
+                <template v-slot:activator="{ props: activatorProps }">
+                  <v-btn v-bind="activatorProps">Pagar</v-btn>
+                </template>
 
-                  <div class="user-content">
-                    <ul v-if="!paying" class="user-informations">
-                      <li>
-                        <i class="material-icons">cake</i>
-                        <span class="info-text"
-                          >Data de Nascimento: {{ client.birth }}</span
+                <template v-slot:default="{ isActive }">
+                  <v-card :title="client.name">
+                    <v-card-text>
+                      <h3 class="text-center">
+                        Digite seu cpf para prosseguir
+                      </h3>
+                      <div class="check-cpf">
+                        <v-text-field
+                          v-model="inputCpf"
+                          label="CPF"
+                        ></v-text-field>
+                      </div>
+
+                      <div class="user-content">
+                        <ul v-if="!paying" class="user-informations">
+                          <li>
+                            <i class="material-icons">cake</i>
+                            <span class="info-text"
+                              >Data de Nascimento: {{ client.birth }}</span
+                            >
+                          </li>
+                          <li>
+                            <i class="material-icons">email</i>
+                            <span class="info-text"
+                              >Email: {{ client.email }}</span
+                            >
+                          </li>
+                          <li>
+                            <i class="material-icons">phone</i>
+                            <span class="info-text"
+                              >Telefone: {{ client.phone }}</span
+                            >
+                          </li>
+                        </ul>
+
+                        <div class="payment-container" v-if="paying">
+                          <v-progress-circular
+                            indeterminate
+                            color="primary"
+                          ></v-progress-circular>
+                        </div>
+
+                        <v-btn
+                          variant="outlined"
+                          block
+                          class="mt-2"
+                          color="success"
+                          @click="monthlyPayment(client)"
+                          >Pagar</v-btn
                         >
-                      </li>
-                      <li>
-                        <i class="material-icons">email</i>
-                        <span class="info-text">Email: {{ client.email }}</span>
-                      </li>
-                      <li>
-                        <i class="material-icons">phone</i>
-                        <span class="info-text"
-                          >Telefone: {{ client.phone }}</span
-                        >
-                      </li>
-                    </ul>
+                      </div>
+                    </v-card-text>
 
-                    <div class="payment-container" v-if="paying">
-                      <v-progress-circular
-                        indeterminate
-                        color="primary"
-                      ></v-progress-circular>
-                    </div>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
 
-                    <v-btn
-                      variant="outlined"
-                      block
-                      class="mt-2"
-                      color="success"
-                      @click="monthlyPayment(client)"
-                      >Pagar</v-btn
-                    >
-                  </div>
-                </v-card-text>
-
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-
-                  <v-btn text="Fechar" @click="isActive.value = false"></v-btn>
-                </v-card-actions>
-              </v-card>
-            </template>
-          </v-dialog>
+                      <v-btn
+                        text="Fechar"
+                        @click="isActive.value = false"
+                      ></v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </template>
+              </v-dialog>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
