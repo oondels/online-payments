@@ -83,7 +83,7 @@
 
                         <div class="payment-container">
                           <v-progress-circular
-                            v-if="paying"
+                            v-if="paying && !approved"
                             indeterminate
                             color="success"
                             :size="150"
@@ -92,19 +92,22 @@
 
                           <div
                             class="bar-code d-flex flex-column justify-content-center align-items-center"
-                            v-if="qrCode && processingPayment"
+                            v-if="qrCode && processingPayment && !approved"
                           >
                             <qrcode
                               :value="qrCode"
                               :options="{ width: 200 }"
                             ></qrcode>
 
-                            <a :href="qrCodeLink" target="_blank"
-                              >Ou clique aqui</a
-                            >
+                            <a :href="qrCodeLink" target="_blank">
+                              Ou clique aqui
+                            </a>
                           </div>
 
-                          <!-- <div class="success" v-if=></div> -->
+                          <div v-if="approved" class="success checkmark-circle">
+                            <!-- <img src="../../public/success.gif" alt="" /> -->
+                            <div class="checkmark"></div>
+                          </div>
                         </div>
 
                         <v-btn
@@ -173,6 +176,8 @@ export default {
       paying: false,
       qrCode: "",
       qrCodeLink: "",
+      approved: false,
+      recused: false,
     };
   },
 
@@ -187,6 +192,14 @@ export default {
     this.socket = io("http://localhost:2399");
     this.socket.on("payment-approved", () => {
       console.log("Pagamento Aprovado");
+      this.approved = true;
+
+      setTimeout(() => {
+        setTimeout(() => {
+          this.clearPaymentData();
+          window.location.reload();
+        }, 2000);
+      }, 3000);
     });
 
     this.socket.on("payment-not-approved", () => {
@@ -197,6 +210,15 @@ export default {
   },
 
   methods: {
+    clearPaymentData() {
+      this.qrCode = "";
+      this.qrCodeLink = "";
+      this.paying = false;
+      this.processingPayment = false;
+      this.approved = false;
+      this.recused = false;
+    },
+
     getClients() {
       axios
         .get(`${ip}/get-academy-clients`)
@@ -233,13 +255,6 @@ export default {
           console.error("Erro ao efetuar pagamento: ", error);
           alert("Erro ao efetuar pagamento");
         });
-    },
-
-    clearPaymentData() {
-      this.qrCode = "";
-      this.qrCodeLink = "";
-      this.paying = false;
-      this.processingPayment = false;
     },
   },
 };
@@ -369,6 +384,50 @@ th {
 
 .bar-code small {
   color: #7a8c99;
+}
+
+/* Animação COnfirmação pagamento */
+.checkmark-circle {
+  width: 100px;
+  height: 100px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: scale-up 0.8s ease-in-out infinite;
+}
+
+.checkmark {
+  width: 20px;
+  height: 40px;
+  border-right: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  transform: rotate(45deg);
+  opacity: 0;
+  animation: draw-checkmark 0.3s 0.4s ease-in-out forwards;
+}
+
+@keyframes scale-up {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes draw-checkmark {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @media screen and (max-width: 768px) {
