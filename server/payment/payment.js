@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const client = require("./mercadoPagoConfig.js");
 const pool = require("../db/db.js");
 const { v4: uuidv4 } = require("uuid");
@@ -8,7 +9,7 @@ require("dotenv").config();
 
 const payment = new Payment(client);
 
-// Teste de status de pagamento
+// Teste de status de pagamentoconst { Server } = require("socket.io");
 async function verificarStatusPagamento(paymentId) {
   try {
     const pagamento = await payment.findById(paymentId);
@@ -77,10 +78,30 @@ router.post("/web-hooks", async (req, res) => {
 
       const paymentDetail = await payment.get({ id: paymentId });
 
-      res.status(200).send("Webhook processado com sucesso.");
+      if (paymentDetail.status === "approved") {
+        await pool.query(
+          `
+          UPDATE clients.payment
+          SET
+            payment_status = $1, updated_at = NOW()
+          WHERE
+            payment_id = $2
+          `,
+          [paymentDetail.status, paymentId]
+        );
+
+        req.io.emit("payment-approved", {
+          status: "approved",
+        });
+      }
+
+      res.status(200).send("Pagamento Processado com sucesso.");
     } else {
       console.log("Ação não tratada: ", paymentData.action);
 
+      req.io.emit("payment-not-approved", {
+        status: "error",
+      });
       res.status(400).send("Ação não tratada.");
     }
   } catch (error) {
@@ -89,37 +110,74 @@ router.post("/web-hooks", async (req, res) => {
   }
 });
 
-router.post("/pix-payment", async (req, res) => {
+router.post("/client-monthly-payment", async (req, res) => {
   try {
-    const paymentDetails = req.body.data;
+    const client = req.body;
 
-    // Lógica de valor aleatório
+    const date = new Date();
+    const currentYear = date.getFullYear();
+
+    const clientBirth = new Date(client.birth);
+    const clientAge = currentYear - clientBirth.getFullYear();
+
+    const query = await pool.query(
+      `
+        SELECT price FROM courses.courses
+        WHERE name = $1
+      `,
+      [client.course]
+    );
+    let price = query.rows[0].price;
+
+    if (clientAge <= 15 && client.course === "Jiu-Jitsu") {
+      price = price - 20;
+    }
+
+    // // Lógica de valor aleatório
     const requestOptions = {
       idempotencyKey: uuidv4(),
     };
 
     const body = {
-      transaction_amount: 1,
-      description: "Teste de pagamento",
+      transaction_amount: price,
+      description: `Pagamento de Mensalidade de ${client.course}`,
       payment_method_id: "pix",
+      notification_url:
+        "https://aeesi-local-server.vercel.app/payment/web-hooks",
       payer: {
-        email: "hendriusfelix@gmail.com",
+        email: client.email,
         identification: {
           type: "cpf",
-          number: "04894714558",
+          number: client.cpf,
         },
       },
     };
 
-    payment
-      .create({ body, requestOptions })
-      .then((response) => {
-        liberado = true;
-        res.status(200).send(response);
-      })
-      .catch((error) => {
-        console.error("Erro:", error);
+    const response = await payment.create({ body, requestOptions });
+
+    if (response && response.status === "pending") {
+      const paymentId = response.id;
+      const paymentStatus = response.status;
+
+      req.io.emit("payment-approved", {
+        status: "approved",
       });
+
+      // console.log(client);
+      // await pool.query(
+      //   `
+      //   INSERT INTO clients.payment (id_client, payment_id, payment_status, created_at)
+      //   VALUES ($1, $2, false, NOW())
+      // `,
+      //   [client.id, paymentId]
+      // );
+      res.send(response);
+
+      //COlocar essa resposta de volta para produção
+      // res.status(200).send("Pagamento em processamento...");
+    } else {
+      res.status(400).send("Erro na criação do pagamento.");
+    }
   } catch (error) {
     console.error("Erro interno no servidor: ", error);
     res.status(500).send("Erro interno no servidor.");

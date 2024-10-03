@@ -57,7 +57,10 @@
                       <div
                         class="user-content d-flex flex-column justify-content-center align-items-center"
                       >
-                        <ul v-if="!paying" class="user-informations">
+                        <ul
+                          v-if="!paying && !processingPayment"
+                          class="user-informations"
+                        >
                           <li>
                             <i class="material-icons">cake</i>
                             <span class="info-text"
@@ -78,9 +81,9 @@
                           </li>
                         </ul>
 
-                        <div class="payment-container" v-if="paying">
+                        <div class="payment-container">
                           <v-progress-circular
-                            v-if="paying && !processingPayment"
+                            v-if="paying"
                             indeterminate
                             color="success"
                             :size="150"
@@ -89,7 +92,7 @@
 
                           <div
                             class="bar-code d-flex flex-column justify-content-center align-items-center"
-                            v-if="paying && processingPayment && qrCode"
+                            v-if="qrCode && processingPayment"
                           >
                             <qrcode
                               :value="qrCode"
@@ -100,6 +103,8 @@
                               >Ou clique aqui</a
                             >
                           </div>
+
+                          <!-- <div class="success" v-if=></div> -->
                         </div>
 
                         <v-btn
@@ -150,6 +155,7 @@ import Alert from "@/components/Alert.vue";
 import Qrcode from "@chenfengyuan/vue-qrcode";
 import axios from "axios";
 import ip from "../ip.js";
+import { io } from "socket.io-client";
 
 export default {
   name: "Pamagamento",
@@ -164,7 +170,6 @@ export default {
       inputCpf: "",
 
       processingPayment: false,
-      loading: false,
       paying: false,
       qrCode: "",
       qrCodeLink: "",
@@ -179,6 +184,15 @@ export default {
   // );
 
   mounted() {
+    this.socket = io("http://localhost:2399");
+    this.socket.on("payment-approved", () => {
+      console.log("Pagamento Aprovado");
+    });
+
+    this.socket.on("payment-not-approved", () => {
+      console.log("Pagamento pendente");
+    });
+
     this.getClients();
   },
 
@@ -200,20 +214,16 @@ export default {
         });
     },
 
-    monthlyPayment(client, coursePrice = 40, method = "pix") {
-      // console.log(client);
-      this.paying = !this.paying;
+    monthlyPayment(client) {
+      this.paying = true;
 
-      setTimeout(() => {
-        this.processingPayment = true;
-      }, 1500);
-      //Alterar link depois, esta somente para terste, correto -> client-monthly-payment
       axios
-        .post(`http://localhost:2399/payment/pix-payment`)
+        .post(`http://localhost:2399/payment/client-monthly-payment`, client)
         .then((response) => {
           console.log(response.data);
+          this.paying = false;
+          this.processingPayment = true;
 
-          // Fazer lógica no metodo generateQrCode para gerar e exbir o qr code na div .bar-code
           this.qrCode =
             response.data.point_of_interaction.transaction_data.qr_code;
           this.qrCodeLink =
@@ -224,8 +234,6 @@ export default {
           alert("Erro ao efetuar pagamento");
         });
     },
-
-    generateQrCode() {},
 
     clearPaymentData() {
       this.qrCode = "";
