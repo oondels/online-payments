@@ -170,29 +170,32 @@ export default {
       }
       this.emailSend = true;
 
-      //   axios
-      //     .post(baseUrl + "/send-email", this.emailDetails)
-      //     .then((response) => {
-      //       this.$refs.alert.mostrarAlerta(
-      //         "success",
-      //         "done_outline",
-      //         "Sucesso",
-      //         `${response.data}`
-      //       );
-      //       console.log(response.data);
-      //     })
-      //     .catch((error) => {
-      //       this.$refs.alert.mostrarAlerta(
-      //         "danger",
-      //         "warning",
-      //         "Erro",
-      //         "Erro de comunicação... Estamos trabalhando para consertar, tente contato por Whatsapp -> +55 (75) 982466403"
-      //       );
-      //       console.error("Error communicating with the server:", error);
-      //     })
-      //     .finally(() => {
-      //       this.emailSend = false;
-      //     });
+      axios
+        .post(
+          "https://aeesi-local-server.vercel.app/send-email",
+          this.emailDetails
+        )
+        .then((response) => {
+          this.$refs.alert.mostrarAlerta(
+            "success",
+            "done_outline",
+            "Sucesso",
+            `${response.data}`
+          );
+          console.log(response.data);
+        })
+        .catch((error) => {
+          this.$refs.alert.mostrarAlerta(
+            "danger",
+            "warning",
+            "Erro",
+            "Erro de comunicação... Estamos trabalhando para consertar, tente contato por Whatsapp -> +55 (75) 982466403"
+          );
+          console.error("Error communicating with the server:", error);
+        })
+        .finally(() => {
+          this.emailSend = false;
+        });
     },
   },
 };
