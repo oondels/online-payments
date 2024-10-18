@@ -9,6 +9,7 @@
           <h2 class="text-center pb-2">Vamos Trabalhar Juntos!</h2>
         </div>
       </div>
+
       <div class="socials">
         <div class="lets-work">
           <h4 class="text-center">Me mande uma mensagem</h4>
@@ -16,27 +17,49 @@
             Ou apenas olhe minha redes sociais
           </h5>
         </div>
+
         <div class="icons">
-          <a href="https://www.instagram.com/hendriusfelix/" target="_blank"
-            ><i
-              class="mdi mdi-instagram mdi-24px"
-              title="instagram.com/hendriusfelix"
-            ></i
-          ></a>
+          <v-tooltip text="/hendriusfelix/">
+            <template v-slot:activator="{ props }">
+              <a
+                v-bind="props"
+                href="https://www.instagram.com/hendriusfelix/"
+                target="_blank"
+                ><i
+                  class="mdi mdi-instagram mdi-24px"
+                  title="instagram.com/hendriusfelix"
+                ></i
+              ></a>
+            </template>
+          </v-tooltip>
 
-          <a href="https://www.instagram.com/hendriusfelix/" target="_blank"
-            ><i
-              class="mdi mdi-whatsapp mdi-24px"
-              title="instagram.com/hendriusfelix"
-            ></i
-          ></a>
+          <v-tooltip text="/hendriusfelix/">
+            <template v-slot:activator="{ props }">
+              <a
+                v-bind="props"
+                href="https://www.instagram.com/hendriusfelix/"
+                target="_blank"
+                ><i
+                  class="mdi mdi-whatsapp mdi-24px"
+                  title="instagram.com/hendriusfelix"
+                ></i
+              ></a>
+            </template>
+          </v-tooltip>
 
-          <a href="https://www.instagram.com/hendriusfelix/" target="_blank"
-            ><i
-              class="mdi mdi-email mdi-24px"
-              title="instagram.com/hendriusfelix"
-            ></i
-          ></a>
+          <v-tooltip text="/hendriusfelix/">
+            <template v-slot:activator="{ props }">
+              <a
+                v-bind="props"
+                href="https://www.instagram.com/hendriusfelix/"
+                target="_blank"
+                ><i
+                  class="mdi mdi-email mdi-24px"
+                  title="instagram.com/hendriusfelix"
+                ></i
+              ></a>
+            </template>
+          </v-tooltip>
         </div>
       </div>
     </div>
