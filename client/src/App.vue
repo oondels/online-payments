@@ -1,27 +1,32 @@
 <template>
-  <nav>
+  <nav class="nav-bar">
     <!-- Ícone de Menu para Dispositivos Móveis -->
     <span class="menu-icon" @click="toggleMenu">{{
       menuOpen ? "✕" : "☰"
     }}</span>
 
-    <!-- Links de navegação -->
     <div class="menu-items" :class="{ show: menuOpen }">
       <router-link to="/">Home</router-link>
-      <router-link to="/pagamento">Pagamento</router-link>
-      <router-link to="/sobre">Sobre</router-link>
+      <router-link to="/pagamento">Loja</router-link>
+      <router-link to="/sobre">Dass</router-link>
     </div>
   </nav>
   <router-view />
+
+  <Footer />
 </template>
 
 <script>
+import Footer from "./components/Footer.vue";
+
 export default {
   data() {
     return {
       menuOpen: false,
     };
   },
+
+  components: { Footer },
 
   methods: {
     toggleMenu() {
@@ -38,6 +43,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 nav {

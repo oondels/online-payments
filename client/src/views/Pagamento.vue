@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="pagamento">
     <h1>HelloWorld</h1>
 
     <v-dialog max-width="700">
@@ -21,125 +21,137 @@
       </template>
     </v-dialog>
     <div v-if="clients" class="table">
-      <table class="table-payments">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Curso</th>
-            <th>Pagamento</th>
-          </tr>
-        </thead>
+      <div class="table-container">
+        <table class="table-payments">
+          <thead>
+            <tr>
+              <th>
+                <v-text-field
+                  label="Nome"
+                  v-model="searchClient"
+                  @update:modelValue="filterClient"
+                />
+              </th>
+              <th>Curso</th>
+              <th>Pagamento</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr v-for="client in clients" :key="client.id">
-            <td>{{ client.name }}</td>
-            <td>{{ client.course }}</td>
+          <tbody>
+            <tr v-for="client in filteredClients" :key="client.id">
+              <td>{{ client.name }}</td>
+              <td>{{ client.course }}</td>
 
-            <td>
-              <v-dialog max-width="700">
-                <template v-slot:activator="{ props: activatorProps }">
-                  <v-btn v-bind="activatorProps">Pagar</v-btn>
-                </template>
+              <td>
+                <v-dialog max-width="700">
+                  <template v-slot:activator="{ props: activatorProps }">
+                    <v-btn v-bind="activatorProps">Pagar</v-btn>
+                  </template>
 
-                <template v-slot:default="{ isActive }">
-                  <v-card :title="client.name">
-                    <v-card-text>
-                      <h3 class="text-center">
-                        Digite seu cpf para prosseguir
-                      </h3>
-                      <div class="check-cpf">
-                        <v-text-field
-                          v-model="inputCpf"
-                          label="CPF"
-                        ></v-text-field>
-                      </div>
-
-                      <div
-                        class="user-content d-flex flex-column justify-content-center align-items-center"
-                      >
-                        <ul
-                          v-if="!paying && !processingPayment"
-                          class="user-informations"
-                        >
-                          <li>
-                            <i class="material-icons">cake</i>
-                            <span class="info-text"
-                              >Data de Nascimento: {{ client.birth }}</span
-                            >
-                          </li>
-                          <li>
-                            <i class="material-icons">email</i>
-                            <span class="info-text"
-                              >Email: {{ client.email }}</span
-                            >
-                          </li>
-                          <li>
-                            <i class="material-icons">phone</i>
-                            <span class="info-text"
-                              >Telefone: {{ client.phone }}</span
-                            >
-                          </li>
-                        </ul>
-
-                        <div class="payment-container">
-                          <v-progress-circular
-                            v-if="paying && !approved"
-                            indeterminate
-                            color="success"
-                            :size="150"
-                            width="18"
-                          ></v-progress-circular>
-
-                          <div
-                            class="bar-code d-flex flex-column justify-content-center align-items-center"
-                            v-if="qrCode && processingPayment && !approved"
-                          >
-                            <qrcode
-                              :value="qrCode"
-                              :options="{ width: 200 }"
-                            ></qrcode>
-
-                            <a :href="qrCodeLink" target="_blank">
-                              Ou clique aqui
-                            </a>
-                          </div>
-
-                          <div v-if="approved" class="success checkmark-circle">
-                            <!-- <img src="../../public/success.gif" alt="" /> -->
-                            <div class="checkmark"></div>
-                          </div>
+                  <template v-slot:default="{ isActive }">
+                    <v-card :title="client.name">
+                      <v-card-text>
+                        <h3 class="text-center">
+                          Digite seu cpf para prosseguir
+                        </h3>
+                        <div class="check-cpf">
+                          <v-text-field
+                            v-model="inputCpf"
+                            label="CPF"
+                          ></v-text-field>
                         </div>
 
-                        <v-btn
-                          variant="outlined"
-                          block
-                          class="mt-2"
-                          color="success"
-                          @click="monthlyPayment(client)"
-                          >Pagar</v-btn
+                        <div
+                          class="user-content d-flex flex-column justify-content-center align-items-center"
                         >
-                      </div>
-                    </v-card-text>
+                          <ul
+                            v-if="!paying && !processingPayment"
+                            class="user-informations"
+                          >
+                            <li>
+                              <i class="material-icons">cake</i>
+                              <span class="info-text"
+                                >Data de Nascimento: {{ client.birth }}</span
+                              >
+                            </li>
+                            <li>
+                              <i class="material-icons">email</i>
+                              <span class="info-text"
+                                >Email: {{ client.email }}</span
+                              >
+                            </li>
+                            <li>
+                              <i class="material-icons">phone</i>
+                              <span class="info-text"
+                                >Telefone: {{ client.phone }}</span
+                              >
+                            </li>
+                          </ul>
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
+                          <div class="payment-container">
+                            <v-progress-circular
+                              v-if="paying && !approved"
+                              indeterminate
+                              color="success"
+                              :size="150"
+                              width="18"
+                            ></v-progress-circular>
 
-                      <v-btn
-                        text="Fechar"
-                        @click="
-                          isActive.value = false;
-                          clearPaymentData();
-                        "
-                      ></v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </template>
-              </v-dialog>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                            <div
+                              class="bar-code d-flex flex-column justify-content-center align-items-center"
+                              v-if="qrCode && processingPayment && !approved"
+                            >
+                              <qrcode
+                                :value="qrCode"
+                                :options="{ width: 200 }"
+                              ></qrcode>
+
+                              <a :href="qrCodeLink" target="_blank">
+                                Ou clique aqui
+                              </a>
+                            </div>
+
+                            <div
+                              v-if="approved"
+                              class="success checkmark-circle"
+                            >
+                              <!-- <img src="../../public/success.gif" alt="" /> -->
+                              <div class="checkmark"></div>
+                            </div>
+                          </div>
+
+                          <v-btn
+                            variant="outlined"
+                            block
+                            class="mt-2"
+                            color="success"
+                            @click="monthlyPayment(client)"
+                            >Pagar</v-btn
+                          >
+                        </div>
+                      </v-card-text>
+
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+
+                        <v-btn
+                          text="Fechar"
+                          @click="
+                            isActive.value = false;
+                            clearPaymentData();
+                          "
+                        ></v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </template>
+                </v-dialog>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
     <div class="mt-5" v-else>
       <v-progress-circular
         indeterminate
@@ -168,6 +180,9 @@ export default {
   data() {
     return {
       clients: null,
+      filteredClients: null,
+      searchClient: "",
+
       paymentStatus: null,
 
       inputCpf: "",
@@ -207,6 +222,7 @@ export default {
     });
 
     this.getClients();
+    this.filterClient();
   },
 
   methods: {
@@ -219,12 +235,27 @@ export default {
       this.recused = false;
     },
 
+    filterClient(e) {
+      if (e) {
+        this.filteredClients = this.clients.filter((client) => {
+          const nomalizeClientName = client.name.toLowerCase();
+          const normalizeInput = e.toLowerCase();
+
+          return nomalizeClientName.includes(normalizeInput);
+        });
+
+        return this.filteredClients;
+      }
+
+      return (this.filteredClients = this.clients);
+    },
+
     getClients() {
       axios
         .get(`${ip}/get-academy-clients`)
         .then((response) => {
           this.clients = response.data;
-
+          this.filterClient();
           this.courses = [
             ...new Set(response.data.map((course) => course.course)),
           ];
@@ -261,7 +292,16 @@ export default {
 </script>
 
 <style scoped>
+.pagamento {
+  min-height: 600px !important;
+}
 /* Tabelea Usuários */
+.table-container {
+  max-height: 700px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+}
+
 .table {
   width: 70%;
   margin: 20px auto;
