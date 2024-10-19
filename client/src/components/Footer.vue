@@ -106,13 +106,13 @@ export default {
 
 @media screen and (max-width: 880px) {
   .footer {
-    margin-top: 200px;
+    margin-top: 350px;
   }
 }
 
-@media screen and (max-width: 490px) {
+@media screen and (max-width: 400px) {
   .footer {
-    margin-top: 300px;
+    margin-top: 400px;
   }
 }
 </style>

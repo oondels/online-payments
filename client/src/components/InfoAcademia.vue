@@ -4,7 +4,7 @@
       hide-delimiters
       height="100%"
       cycle
-      :interval="3000"
+      :interval="5000"
       :show-arrows="false"
     >
       <v-carousel-item v-for="(img, i) in images" :key="i" :src="img" cover>

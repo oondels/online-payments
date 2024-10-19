@@ -472,4 +472,10 @@ p {
     width: auto;
   }
 }
+
+@media screen and (max-width: 400px) {
+  .programas-container {
+    margin-top: 230px !important;
+  }
+}
 </style>
