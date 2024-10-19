@@ -19,7 +19,7 @@
             <li><a href="#!" class="text-white">Sobre Nós</a></li>
             <li>
               <a
-                href="https://www.hendriusfelix.com.br/"
+                href="https://hendriusfelix.com.br/"
                 target="_blank"
                 class="text-white"
               >
@@ -61,7 +61,7 @@
           <p class="mb-0">&copy; 2024 Aeesi. Todos os direitos reservados.</p>
           <p class="mb-0">
             Desenvolvido por
-            <a href="https://www.hendriusfelix.com.br/" target="_blank">
+            <a href="https://hendriusfelix.com.br/" target="_blank">
               Hendrius Félix
             </a>
           </p>
