@@ -4,11 +4,11 @@
       <div class="row">
         <!-- Seção sobre a academia -->
         <div class="col-md-4">
-          <h5 class="text-uppercase">Dass SEST</h5>
+          <h5 class="title-footer">Academia Aeesi</h5>
           <p>
-            Bem-vindo à Dass SEST, onde ajudamos você a atingir seus objetivos
-            de saúde e bem-estar com uma estrutura moderna e os melhores
-            profissionais.
+            Bem-vindo à Academia Aeesi, onde ajudamos você a atingir seus
+            objetivos de saúde e bem-estar com uma estrutura moderna e os
+            melhores profissionais.
           </p>
         </div>
 
@@ -17,22 +17,40 @@
           <h5 class="text-uppercase">Links Rápidos</h5>
           <ul class="list-unstyled">
             <li><a href="#!" class="text-white">Sobre Nós</a></li>
-            <li><a href="#!" class="text-white">Planos</a></li>
-            <li><a href="#!" class="text-white">Horários</a></li>
-            <li><a href="#!" class="text-white">Contato</a></li>
+            <li>
+              <a
+                href="https://www.hendriusfelix.com.br/"
+                target="_blank"
+                class="text-white"
+              >
+                Desenvolvedor
+              </a>
+            </li>
           </ul>
         </div>
 
         <!-- Redes sociais -->
         <div class="col-md-4">
           <h5 class="text-uppercase">Entre em Contato</h5>
-          <a href="#" class="text-white me-3">
+          <a
+            href="https://wa.me/5575981628198?text=Olá%2C%20gostaria%20de%20mais%20informações."
+            class="text-white me-3"
+            target="_blank"
+          >
             <i class="mdi mdi-whatsapp mdi-24px"></i>
           </a>
-          <a href="#" class="text-white me-3">
+          <a
+            href="https://www.instagram.com/essencia.evolutiva/"
+            class="text-white me-3"
+            target="_blank"
+          >
             <i class="mdi mdi-instagram mdi-24px"></i>
           </a>
-          <a href="#" class="text-white me-3">
+          <a
+            href="mailto:aeesi.academia@gmail.com?subject=Informações%20sobre%20a%20academia&body=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20academia."
+            class="text-white me-3"
+            target="_blank"
+          >
             <i class="mdi mdi-email mdi-24px"></i>
           </a>
         </div>
@@ -40,8 +58,12 @@
 
       <div class="row mt-3">
         <div class="col-md-12 text-center">
+          <p class="mb-0">&copy; 2024 Aeesi. Todos os direitos reservados.</p>
           <p class="mb-0">
-            &copy; 2024 Dass SEST. Todos os direitos reservados.
+            Desenvolvido por
+            <a href="https://www.hendriusfelix.com.br/" target="_blank">
+              Hendrius Félix
+            </a>
           </p>
         </div>
       </div>
@@ -78,9 +100,19 @@ export default {
   color: #1db954;
 }
 
+.title-footer {
+  color: #1db954;
+}
+
 @media screen and (max-width: 880px) {
   .footer {
     margin-top: 200px;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .footer {
+    margin-top: 300px;
   }
 }
 </style>

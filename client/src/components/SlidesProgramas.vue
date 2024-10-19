@@ -1,247 +1,300 @@
 <template>
-  <v-carousel
-    height="300"
-    show-arrows="hover"
-    hide-delimiter-background
-    hide-delimiters
-  >
-    <v-carousel-item>
-      <v-sheet height="100%">
-        <div
-          class="card-programa-container d-flex flex-row fill-height justify-content-around align-items-center"
-        >
-          <v-hover
-            v-for="(curso, i) in cursos1"
-            :key="i"
-            v-slot:default="{ isHovering, props }"
-          >
-            <v-card
-              :class="{ 'on-hover': isHovering }"
-              :elevation="isHovering ? 12 : 2"
-              v-bind="props"
+  <div class="programas-container mt-5">
+    <div class="vantagem-title title pl-3">
+      <h1>Confira</h1>
+      <span>Nossos Programas</span>
+    </div>
+
+    <div class="slides-programas">
+      <v-carousel
+        height="300"
+        show-arrows
+        hide-delimiter-background
+        hide-delimiters
+      >
+        <v-carousel-item>
+          <v-sheet height="100%">
+            <div
+              class="card-programa-container d-flex flex-row fill-height justify-content-around align-items-center"
             >
-              <v-img
-                :src="images1[i]"
-                height="320px"
-                width="100%"
-                class="gradient-overlay"
-                cover
+              <v-hover
+                v-for="(curso, i) in cursos1"
+                :key="i"
+                v-slot:default="{ isHovering, props }"
               >
-                <div class="card-content content text-left">
-                  <div class="title-card-programa">
-                    <h4>{{ curso }}</h4>
-                  </div>
+                <v-card
+                  :class="{ 'on-hover': isHovering }"
+                  :elevation="isHovering ? 12 : 2"
+                  v-bind="props"
+                >
+                  <v-img
+                    :src="images1[i]"
+                    height="320px"
+                    class="gradient-overlay"
+                    cover
+                  >
+                    <div class="card-content content text-left">
+                      <div class="text-card-content">
+                        <div class="title-card-programa">
+                          <h4>{{ curso }}</h4>
+                        </div>
 
-                  <p>
-                    {{ descriptions1[i] }}
-                  </p>
-                  <div class="align-self-center">
-                    <v-dialog max-width="750">
-                      <template v-slot:activator="{ props: activatorProps }">
-                        <v-btn
-                          v-bind="activatorProps"
-                          :color="transparent"
-                          :class="{ 'show-btn': isHovering }"
-                          class="mb-2"
-                          variant="outlined"
-                          color="success"
-                        >
-                          Saiba Mais
-                        </v-btn>
-                      </template>
-
-                      <template v-slot:default="{ isActive }">
-                        <v-card :title="curso">
-                          <v-card-text>
-                            <div class="horarios">
-                              <i class="mdi mdi-clock-outline"></i>
-                              <strong>Horários: </strong>
-                              <span>Segunda a Sexta - 07:00 às 21:00</span>
-                            </div>
-
-                            <div class="professores">
-                              <i class="mdi mdi-teach"></i>
-                              <strong>Professores: </strong>
-                              <span>João Silva, Ana Costa</span>
-                            </div>
-
-                            <div class="valores">
-                              <i class="mdi mdi-currency-usd"></i>
-                              <strong>Valores: </strong>
-                              <span>R$ 200,00/mês</span>
-                            </div>
-                          </v-card-text>
-
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-
+                        <p>
+                          {{ descriptions1[i] }}
+                        </p>
+                      </div>
+                      <div class="align-self-center">
+                        <v-dialog max-width="750">
+                          <template
+                            v-slot:activator="{ props: activatorProps }"
+                          >
                             <v-btn
-                              text="Fechar"
-                              @click="isActive.value = false"
-                            ></v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </template>
-                    </v-dialog>
-                  </div>
-                </div>
-              </v-img>
-            </v-card>
-          </v-hover>
-        </div>
-      </v-sheet>
-    </v-carousel-item>
+                              v-bind="activatorProps"
+                              :color="transparent"
+                              :class="{ 'show-btn': isHovering }"
+                              class="mb-2"
+                              variant="outlined"
+                              color="success"
+                            >
+                              Saiba Mais
+                            </v-btn>
+                          </template>
 
-    <v-carousel-item>
-      <v-sheet height="100%">
-        <div
-          class="card-programa-container d-flex flex-row fill-height justify-content-around align-items-center"
-        >
-          <v-hover
-            v-for="(curso, i) in cursos2"
-            :key="i"
-            v-slot:default="{ isHovering, props }"
-          >
-            <v-card
-              :class="{ 'on-hover': isHovering }"
-              :elevation="isHovering ? 12 : 2"
-              v-bind="props"
+                          <template v-slot:default="{ isActive }">
+                            <v-card :title="curso">
+                              <v-card-text>
+                                <div class="horarios">
+                                  <i class="mdi mdi-clock-outline"></i>
+                                  <strong>Horários: </strong>
+                                  <span>Segunda a Sexta - 07:00 às 21:00</span>
+                                </div>
+
+                                <div class="professores">
+                                  <i class="mdi mdi-teach"></i>
+                                  <strong>Professores: </strong>
+                                  <span>Laudeci Santana</span>
+                                </div>
+
+                                <div class="valores">
+                                  <i class="mdi mdi-currency-usd"></i>
+                                  <strong>Valores: </strong>
+                                  <span
+                                    v-for="(valor, valorIndex) in valor1[i]"
+                                    :key="valorIndex"
+                                  >
+                                    {{ valor }}
+                                  </span>
+                                </div>
+                              </v-card-text>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+
+                                <v-btn
+                                  text="Fechar"
+                                  @click="isActive.value = false"
+                                ></v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </template>
+                        </v-dialog>
+                      </div>
+                    </div>
+                  </v-img>
+                </v-card>
+              </v-hover>
+            </div>
+          </v-sheet>
+        </v-carousel-item>
+
+        <v-carousel-item>
+          <v-sheet height="100%">
+            <div
+              class="card-programa-container d-flex flex-row fill-height justify-content-around align-items-center"
             >
-              <v-img
-                :src="images2[i]"
-                height="320px"
-                width="100%"
-                class="gradient-overlay"
-                cover
+              <v-hover
+                v-for="(curso, i) in cursos2"
+                :key="i"
+                v-slot:default="{ isHovering, props }"
               >
-                <div class="card-content content text-left">
-                  <div class="title-card-programa">
-                    <h4>{{ curso }}</h4>
-                  </div>
+                <v-card
+                  :class="{ 'on-hover': isHovering }"
+                  :elevation="isHovering ? 12 : 2"
+                  v-bind="props"
+                >
+                  <v-img
+                    :src="images2[i]"
+                    height="320px"
+                    class="gradient-overlay"
+                    cover
+                  >
+                    <div class="card-content content text-left">
+                      <div class="title-card-programa">
+                        <h4>{{ curso }}</h4>
+                      </div>
 
-                  <p>
-                    {{ descriptions2[i] }}
-                  </p>
-                  <div class="align-self-center">
-                    <v-dialog max-width="750">
-                      <template v-slot:activator="{ props: activatorProps }">
-                        <v-btn
-                          v-bind="activatorProps"
-                          :color="transparent"
-                          :class="{ 'show-btn': isHovering }"
-                          class="mb-2"
-                          variant="outlined"
-                          color="success"
-                        >
-                          Saiba Mais
-                        </v-btn>
-                      </template>
-
-                      <template v-slot:default="{ isActive }">
-                        <v-card :title="curso">
-                          <v-card-text>
-                            <div class="horarios"></div>
-
-                            <div class="professores"></div>
-
-                            <div class="valores"></div>
-                          </v-card-text>
-
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-
+                      <p>
+                        {{ descriptions2[i] }}
+                      </p>
+                      <div class="align-self-center">
+                        <v-dialog max-width="750">
+                          <template
+                            v-slot:activator="{ props: activatorProps }"
+                          >
                             <v-btn
-                              text="Fechar"
-                              @click="isActive.value = false"
-                            ></v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </template>
-                    </v-dialog>
-                  </div>
-                </div>
-              </v-img>
-            </v-card>
-          </v-hover>
-        </div>
-      </v-sheet>
-    </v-carousel-item>
+                              v-bind="activatorProps"
+                              :color="transparent"
+                              :class="{ 'show-btn': isHovering }"
+                              class="mb-2"
+                              variant="outlined"
+                              color="success"
+                            >
+                              Saiba Mais
+                            </v-btn>
+                          </template>
 
-    <v-carousel-item>
-      <v-sheet height="100%">
-        <div
-          class="card-programa-container d-flex flex-row fill-height justify-content-around align-items-center"
-        >
-          <v-hover
-            v-for="(curso, i) in cursos3"
-            :key="i"
-            v-slot:default="{ isHovering, props }"
-          >
-            <v-card
-              :class="{ 'on-hover': isHovering }"
-              :elevation="isHovering ? 12 : 2"
-              v-bind="props"
+                          <template v-slot:default="{ isActive }">
+                            <v-card :title="curso">
+                              <v-card-text>
+                                <div class="horarios">
+                                  <i class="mdi mdi-clock-outline"></i>
+                                  <strong>Horários: </strong>
+                                  <span>Segunda a Sexta - 07:00 às 21:00</span>
+                                </div>
+
+                                <div class="professores">
+                                  <i class="mdi mdi-teach"></i>
+                                  <strong>Professores: </strong>
+                                  <span>Laudeci Santana</span>
+                                </div>
+
+                                <div class="valores">
+                                  <i class="mdi mdi-currency-usd"></i>
+                                  <strong>Valores: </strong>
+                                  <span
+                                    v-for="(valor, valorIndex) in valor2[i]"
+                                    :key="valorIndex"
+                                  >
+                                    {{ valor }}
+                                  </span>
+                                </div>
+                              </v-card-text>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+
+                                <v-btn
+                                  text="Fechar"
+                                  @click="isActive.value = false"
+                                ></v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </template>
+                        </v-dialog>
+                      </div>
+                    </div>
+                  </v-img>
+                </v-card>
+              </v-hover>
+            </div>
+          </v-sheet>
+        </v-carousel-item>
+
+        <v-carousel-item>
+          <v-sheet height="100%">
+            <div
+              class="card-programa-container d-flex flex-row fill-height justify-content-around align-items-center"
             >
-              <v-img
-                :src="images3[i]"
-                height="320px"
-                width="100%"
-                class="gradient-overlay"
-                cover
+              <v-hover
+                v-for="(curso, i) in cursos3"
+                :key="i"
+                v-slot:default="{ isHovering, props }"
               >
-                <div class="card-content content text-left">
-                  <div class="title-card-programa">
-                    <h4>{{ curso }}</h4>
-                  </div>
+                <v-card
+                  :class="{ 'on-hover': isHovering }"
+                  :elevation="isHovering ? 12 : 2"
+                  v-bind="props"
+                >
+                  <v-img
+                    :src="images3[i]"
+                    height="320px"
+                    class="gradient-overlay"
+                    cover
+                  >
+                    <div class="card-content content text-left">
+                      <div class="title-card-programa">
+                        <h4>{{ curso }}</h4>
+                      </div>
 
-                  <p>
-                    {{ descriptions3[i] }}
-                  </p>
-                  <div class="align-self-center">
-                    <v-dialog max-width="750">
-                      <template v-slot:activator="{ props: activatorProps }">
-                        <v-btn
-                          v-bind="activatorProps"
-                          :color="transparent"
-                          :class="{ 'show-btn': isHovering }"
-                          class="mb-2"
-                          variant="outlined"
-                          color="success"
-                        >
-                          Saiba Mais
-                        </v-btn>
-                      </template>
-
-                      <template v-slot:default="{ isActive }">
-                        <v-card :title="curso">
-                          <v-card-text>
-                            <div class="horarios"></div>
-
-                            <div class="professores"></div>
-
-                            <div class="valores"></div>
-                          </v-card-text>
-
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-
+                      <p>
+                        {{ descriptions3[i] }}
+                      </p>
+                      <div class="align-self-center">
+                        <v-dialog max-width="750">
+                          <template
+                            v-slot:activator="{ props: activatorProps }"
+                          >
                             <v-btn
-                              text="Fechar"
-                              @click="isActive.value = false"
-                            ></v-btn>
-                          </v-card-actions>
-                        </v-card>
-                      </template>
-                    </v-dialog>
-                  </div>
-                </div>
-              </v-img>
-            </v-card>
-          </v-hover>
-        </div>
-      </v-sheet>
-    </v-carousel-item>
-  </v-carousel>
+                              v-bind="activatorProps"
+                              :color="transparent"
+                              :class="{ 'show-btn': isHovering }"
+                              class="mb-2"
+                              variant="outlined"
+                              color="success"
+                            >
+                              Saiba Mais
+                            </v-btn>
+                          </template>
+
+                          <template v-slot:default="{ isActive }">
+                            <v-card :title="curso">
+                              <v-card-text>
+                                <div class="horarios">
+                                  <i class="mdi mdi-clock-outline"></i>
+                                  <strong>Horários: </strong>
+                                  <span>Segunda a Sexta - 07:00 às 21:00</span>
+                                </div>
+
+                                <div class="professores">
+                                  <i class="mdi mdi-teach"></i>
+                                  <strong>Professores: </strong>
+                                  <span>Laudeci Santana</span>
+                                </div>
+
+                                <div class="valores">
+                                  <i class="mdi mdi-currency-usd"></i>
+                                  <strong>Valores: </strong>
+                                  <span
+                                    v-for="(valor, valorIndex) in valor3[i]"
+                                    :key="valorIndex"
+                                  >
+                                    {{ valor }}
+                                  </span>
+                                </div>
+                              </v-card-text>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+
+                                <v-btn
+                                  text="Fechar"
+                                  @click="isActive.value = false"
+                                ></v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </template>
+                        </v-dialog>
+                      </div>
+                    </div>
+                  </v-img>
+                </v-card>
+              </v-hover>
+            </div>
+          </v-sheet>
+        </v-carousel-item>
+      </v-carousel>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -275,9 +328,9 @@ export default {
       professores1: [],
       professores2: [],
       professores3: [],
-      valor1: [],
-      valor2: [],
-      valor3: [],
+      valor1: [["Adulto: R$ 100,0 ", " Criança: R$ 80,0"], ["R$ 60,0"]],
+      valor2: [["R$ 60,0"], ["R$ --"]],
+      valor3: [["R$ 80,0"]],
       horarios1: [],
       horarios2: [],
       horarios3: [],
@@ -288,6 +341,14 @@ export default {
 
 <style scoped>
 /* Programas */
+.programas-container {
+  height: 60vh;
+}
+
+.slides-programas {
+  margin: 0 30px;
+}
+
 .show-btn {
   color: rgba(255, 255, 255, 1) !important;
 }
@@ -295,6 +356,14 @@ export default {
 .card-content {
   padding: 20px;
   color: #fff;
+}
+
+.gradient-overlay {
+  width: 900px;
+}
+
+p {
+  width: 400px;
 }
 
 .gradient-overlay::before {
@@ -378,6 +447,29 @@ export default {
 
   .card-content p {
     font-size: 15px;
+  }
+
+  p {
+    width: auto;
+  }
+}
+@media screen and (max-width: 400px) {
+  .slides-programas {
+    margin: 0 5px;
+  }
+
+  .title-card-programa h4 {
+    font-size: 18px !important;
+    margin-top: 20px;
+  }
+
+  .card-content {
+    padding: 10px;
+  }
+
+  .card-content p {
+    font-size: 12px;
+    width: auto;
   }
 }
 </style>

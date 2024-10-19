@@ -10,10 +10,11 @@
 
       <div class="vantagem-text-content p-3">
         <p class="text-justify">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor,
-          expedita consectetur! Neque provident dicta sapiente quasi nobis eos
-          cum in? Harum, error. Accusantium autem debitis nemo dolor. Nostrum,
-          perferendis qui?
+          Com a Aeesi, não há mais desculpas para perder o treino. Academia
+          abertas sete dias por semana, e oferecendo modalidades incríveis por
+          um preço acessível, você pode escolher como, onde e quando se
+          exercitar. A Aeesi também ajuda centenas de jovens com bolsas e
+          auxílios!!
         </p>
 
         <div class="vantagem-action d-flex flex-row justify-content-left">
@@ -25,17 +26,52 @@
             </template>
 
             <template v-slot:default="{ isActive }">
-              <v-card title="Dialog">
+              <v-card>
+                <v-card-title class="text-center">
+                  <strong class="title-info">Sobre Nossa Academia</strong>
+                </v-card-title>
                 <v-card-text>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  <div class="sobre-academia">
+                    <p>
+                      <i class="mdi mdi-heart-outline"></i>
+                      <strong>A Aeesi</strong> é o lugar perfeito para quem
+                      busca saúde e bem-estar em um ambiente motivador e
+                      acolhedor. Localizada em frente a uma bela lagoa, nossa
+                      academia oferece um cenário inspirador, onde você pode
+                      aproveitar não só as atividades físicas dentro de nossas
+                      instalações, mas também um espaço ao ar livre para
+                      caminhadas, cooper e momentos de relaxamento.
+                    </p>
+
+                    <p>
+                      <i class="mdi mdi-calendar-week"></i>
+                      <strong>Funcionamento</strong>: Aberta sete dias por
+                      semana, oferecemos uma variedade de modalidades incríveis
+                      e acessíveis, permitindo que você escolha como, onde e
+                      quando quer se exercitar. Nosso compromisso é com a
+                      qualidade de vida, e por isso também oferecemos programas
+                      de bolsas e auxílios que apoiam jovens na busca por um
+                      futuro mais saudável e ativo.
+                    </p>
+
+                    <p>
+                      <i class="mdi mdi-dumbbell"></i>
+                      <strong>Nossa Missão</strong>: Na Aeesi, acreditamos que o
+                      exercício é para todos e estamos aqui para ajudar você a
+                      alcançar seus objetivos de maneira personalizada, em um
+                      ambiente motivador e cheio de energia positiva. Venha
+                      fazer parte dessa comunidade!
+                    </p>
+                  </div>
                 </v-card-text>
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
                   <v-btn
-                    text="Close Dialog"
+                    text="Fechar"
+                    variant="outlined"
+                    color="danger"
                     @click="isActive.value = false"
                   ></v-btn>
                 </v-card-actions>
@@ -49,18 +85,17 @@
     <div class="slides-academia">
       <v-carousel
         class="p-3"
-        height="400"
+        height="100%"
         show-arrows="hover"
         cycle
         :interval="3000"
         hide-delimiter-background
+        hide-delimiters
       >
         <v-carousel-item v-for="(img, i) in images" :key="i">
-          <v-sheet height="100%">
+          <v-sheet>
             <v-img
               :src="images[i]"
-              height="320px"
-              width="100%"
               class="gradient-overlay"
               style="background-position: center 10%"
               cover
@@ -92,9 +127,13 @@ export default {
 <style scoped>
 /* Vantagens */
 .vantagen_container {
-  height: 60vh;
+  height: 80vh;
   display: grid;
-  grid-template-columns: 600px auto;
+  grid-template-columns: 700px auto;
+}
+
+.gradient-overlay {
+  height: 700px;
 }
 
 .gradient-overlay::before {
@@ -108,9 +147,46 @@ export default {
   z-index: 1;
 }
 
+.sobre-academia {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sobre-academia p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-align: justify; /* Justifica o texto para uma aparência agradável */
+}
+
+.sobre-academia i {
+  color: #4caf50; /* Verde para os ícones */
+  font-size: 24px;
+  margin-right: 10px;
+  vertical-align: middle; /* Alinha o ícone com o texto */
+}
+
+.sobre-academia strong {
+  font-size: 18px;
+  color: #333; /* Cor mais forte para o título */
+}
+
+.title-info {
+  font-size: 23px;
+  color: #4caf50;
+}
+
 @media screen and (max-width: 1200px) {
   .vantagen_container {
     grid-template-columns: 450px auto;
+  }
+
+  .gradient-overlay {
+    height: 600px;
   }
 }
 
@@ -118,8 +194,37 @@ export default {
   .vantagen_container {
     display: flex;
     flex-direction: column;
+  }
 
-    margin-bottom: 200px;
+  .gradient-overlay {
+    height: 400px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .sobre-academia {
+    padding: 15px; /* Reduz o padding para caber melhor em telas menores */
+    box-shadow: none; /* Remove a sombra em telas pequenas para um visual mais leve */
+  }
+
+  .sobre-academia p {
+    font-size: 14px; /* Reduz o tamanho da fonte para melhor leitura em telas pequenas */
+    margin-bottom: 15px; /* Reduz o espaçamento entre parágrafos */
+  }
+
+  .sobre-academia i {
+    font-size: 20px; /* Reduz o tamanho dos ícones para não ocupar muito espaço */
+    margin-right: 8px;
+  }
+
+  .sobre-academia strong {
+    font-size: 16px; /* Diminui o tamanho do texto forte */
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .vantagen_container {
+    margin-bottom: 150px;
   }
 }
 </style>

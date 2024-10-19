@@ -3,10 +3,10 @@
     <div class="social-contact">
       <div class="container-contact-me">
         <div class="contact-me">
-          <img src="/img/contact.png" alt="" />
+          <img src="/img/logo.png" alt="" />
         </div>
         <div class="work-together">
-          <h2 class="text-center pb-2">Vamos Trabalhar Juntos!</h2>
+          <h2 class="text-center pb-2">Vamos Evoluir Juntos!</h2>
         </div>
       </div>
 
@@ -19,44 +19,35 @@
         </div>
 
         <div class="icons">
-          <v-tooltip text="/hendriusfelix/">
+          <v-tooltip text="instagram.com/essencia.evolutiva">
             <template v-slot:activator="{ props }">
               <a
                 v-bind="props"
-                href="https://www.instagram.com/hendriusfelix/"
+                href="https://www.instagram.com/essencia.evolutiva/"
                 target="_blank"
-                ><i
-                  class="mdi mdi-instagram mdi-24px"
-                  title="instagram.com/hendriusfelix"
-                ></i
+                ><i class="mdi mdi-instagram mdi-24px"></i
               ></a>
             </template>
           </v-tooltip>
 
-          <v-tooltip text="/hendriusfelix/">
+          <v-tooltip text="(75)981628198">
             <template v-slot:activator="{ props }">
               <a
                 v-bind="props"
-                href="https://www.instagram.com/hendriusfelix/"
+                href="https://wa.me/5575981628198?text=Olá%2C%20gostaria%20de%20mais%20informações."
                 target="_blank"
-                ><i
-                  class="mdi mdi-whatsapp mdi-24px"
-                  title="instagram.com/hendriusfelix"
-                ></i
+                ><i class="mdi mdi-whatsapp mdi-24px"></i
               ></a>
             </template>
           </v-tooltip>
 
-          <v-tooltip text="/hendriusfelix/">
+          <v-tooltip text="aeesi.academia@gmail.com">
             <template v-slot:activator="{ props }">
               <a
                 v-bind="props"
-                href="https://www.instagram.com/hendriusfelix/"
+                href="mailto:aeesi.academia@gmail.com?subject=Informações%20sobre%20a%20academia&body=Olá,%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20academia."
                 target="_blank"
-                ><i
-                  class="mdi mdi-email mdi-24px"
-                  title="instagram.com/hendriusfelix"
-                ></i
+                ><i class="mdi mdi-email mdi-24px"></i
               ></a>
             </template>
           </v-tooltip>
@@ -210,6 +201,14 @@ export default {
   align-items: center;
 }
 
+.container-contact-me {
+  background-color: #e8f5e9;
+  max-width: 450px;
+  padding: 30px;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
 .social-contact {
   grid-area: social-contact;
   display: flex;
@@ -349,7 +348,6 @@ form {
       "form";
     align-items: center;
     justify-content: center;
-    /* margin-bottom: 270px; */
   }
 }
 

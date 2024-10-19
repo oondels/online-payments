@@ -2,16 +2,7 @@
   <div class="main">
     <Vantagens />
 
-    <div class="programas-container mt-5">
-      <div class="vantagem-title title pl-3">
-        <h1>Confira</h1>
-        <span>Nossos Itens?</span>
-      </div>
-
-      <div class="slides-programas">
-        <SlidesProgramas />
-      </div>
-    </div>
+    <SlidesProgramas />
 
     <InfoAcademia />
 
@@ -57,11 +48,6 @@ h1 {
   padding: 0;
   color: #1db954;
   font-weight: 900;
-}
-
-/* Programas */
-.programas-container {
-  height: 60vh;
 }
 
 /* Contato */

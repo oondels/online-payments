@@ -9,9 +9,9 @@
     </i>
 
     <div class="menu-items" :class="{ show: menuOpen }">
-      <router-link to="/">Home</router-link>
-      <router-link to="/pagamento">Loja</router-link>
-      <router-link to="/sobre">Dass</router-link>
+      <router-link to="/"><img src="/favicon-32x32.png" alt="" /></router-link>
+      <!-- <router-link to="/pagamento">Pagamentos Clientes</router-link> -->
+      <!-- <router-link to="/sobre">Dass</router-link> -->
     </div>
   </nav>
 </template>
