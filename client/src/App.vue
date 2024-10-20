@@ -1,7 +1,9 @@
 <template>
   <Navbar />
   <router-view />
-  <Footer />
+  <div class="footer-container">
+    <Footer />
+  </div>
 </template>
 
 <script>
@@ -35,5 +37,15 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.footer-container {
+  margin-top: 50px;
+}
+
+@media screen and (max-width: 880px) {
+  .footer-container {
+    margin-top: 500px;
+  }
 }
 </style>

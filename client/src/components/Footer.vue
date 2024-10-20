@@ -103,16 +103,4 @@ export default {
 .title-footer {
   color: #1db954;
 }
-
-@media screen and (max-width: 880px) {
-  .footer {
-    margin-top: 350px;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .footer {
-    margin-top: 400px;
-  }
-}
 </style>

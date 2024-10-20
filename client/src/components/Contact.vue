@@ -340,7 +340,7 @@ form {
 
   .container-contact {
     height: auto;
-    min-height: 90vh;
+    /* min-height: 90vh; */
     display: grid;
     grid-template-columns: auto;
     grid-template-areas:

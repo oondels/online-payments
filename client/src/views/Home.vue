@@ -1,10 +1,16 @@
 <template>
   <div class="main">
-    <Vantagens />
+    <div class="container">
+      <Vantagens />
+    </div>
 
-    <SlidesProgramas />
+    <div class="container">
+      <SlidesProgramas />
+    </div>
 
-    <InfoAcademia />
+    <div class="container">
+      <InfoAcademia />
+    </div>
 
     <div class="contato-academia">
       <Contact />
@@ -30,6 +36,15 @@ export default {
 </script>
 
 <style>
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  margin: 50px 0px;
+}
+
 /* Title */
 h1 {
   margin: 0;
