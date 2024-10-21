@@ -342,6 +342,7 @@ export default {
 <style scoped>
 /* Programas */
 .programas-container {
+  margin-bottom: 150px;
   height: 60vh;
 }
 

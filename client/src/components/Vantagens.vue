@@ -127,6 +127,7 @@ export default {
 <style scoped>
 /* Vantagens */
 .vantagen_container {
+  margin-bottom: 150px;
   height: 80vh;
   display: grid;
   grid-template-columns: 700px auto;
